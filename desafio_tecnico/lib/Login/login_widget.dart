@@ -1,3 +1,5 @@
+import 'package:desafio_tecnico/home/home_screen.dart';
+import 'package:desafio_tecnico/widgets/privacy_policy_link.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -54,10 +56,12 @@ class _LoginWidgetState extends State<LoginWidget> {
         return;
       }
 
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => NextScreen()),
-      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
     }
   }
 
@@ -107,39 +111,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Entrar'),
-              ),
-              const SizedBox(height: 40.0),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () {
-                    _launchURL();
-                  },
-                  child: const Text(
-                    'Política de Privacidade',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
+              SizedBox(
+                height: 40,
+                width: 30,
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  child: const Text('Entrar'),
                 ),
               ),
+              const SizedBox(height: 40.0),
+              const PrivacyPolicyLink(),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void _launchURL() async {
-    Uri url = Uri.parse('https://www.google.com');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Não foi possível abrir o link: $url';
-    }
   }
 }
