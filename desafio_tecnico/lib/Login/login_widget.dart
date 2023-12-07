@@ -68,62 +68,71 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _usernameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o nome de usuário';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Usuário',
-                  hintText: '',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(),
-                  helperText: '',
-                ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: _usernameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira o nome de usuário';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Usuário',
+                      hintText: '',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                      helperText: '',
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira a senha';
+                      }
+                      return null;
+                    },
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Senha',
+                      hintText: '',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                      helperText: '',
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: 40,
+                    width: 30,
+                    child: ElevatedButton(
+                      onPressed: _submitForm,
+                      child: const Text('Entrar'),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20.0),
-              TextFormField(
-                controller: _passwordController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira a senha';
-                  }
-                  return null;
-                },
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Senha',
-                  hintText: '',
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(),
-                  helperText: '',
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              SizedBox(
-                height: 40,
-                width: 30,
-                child: ElevatedButton(
-                  onPressed: _submitForm,
-                  child: const Text('Entrar'),
-                ),
-              ),
-              const SizedBox(height: 40.0),
-              const PrivacyPolicyLink(),
-            ],
+            ),
           ),
-        ),
+          const Positioned(
+            top: 10,
+            bottom: 30,
+            left: 0,
+            right: 0,
+            child: PrivacyPolicyLink(),
+          ),
+        ],
       ),
     );
   }
