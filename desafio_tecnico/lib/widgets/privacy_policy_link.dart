@@ -18,7 +18,9 @@ class PrivacyPolicyLink extends StatelessWidget {
           'Política de Privacidade',
           style: TextStyle(
             color: Colors.blue,
-            decoration: TextDecoration.underline,
+            decoration: TextDecoration.none,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

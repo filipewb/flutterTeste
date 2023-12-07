@@ -25,82 +25,114 @@ class HomeScreenView extends StatelessWidget {
 
     _loadSavedData(informationList);
 
-    return Stack(
-      children: [
-        Column(
-          children: [
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: _textController,
-                decoration: const InputDecoration(
-                  labelText: 'Digite as informações',
-                  border: OutlineInputBorder(),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Colors.green.shade100,
+            Colors.green.shade800
+          ], // Cores do gradiente
+        ),
+      ),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    labelText: 'Digite as informações',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                    labelStyle: const TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _submitInformation(
-                  context,
-                  informationList,
-                  _textController.text.trim(),
-                );
-              },
-              child: const Text('Salvar'),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Observer(
-                builder: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: ListView.builder(
-                      itemCount: informationList.infoList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(informationList.infoList[index].text),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    _showEditDialog(
-                                        context, informationList, index);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    _confirmDelete(
-                                        context, informationList, index);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _submitInformation(
+                    context,
+                    informationList,
+                    _textController.text.trim(),
                   );
                 },
+                child: const Text(
+                  'Salvar',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 80),
-          ],
-        ),
-        const Positioned(
-          top: 0,
-          bottom: 40,
-          left: 0,
-          right: 0,
-          child: PrivacyPolicyLink(),
-        ),
-      ],
+              const SizedBox(height: 20),
+              Expanded(
+                child: Observer(
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ListView.builder(
+                        itemCount: informationList.infoList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(informationList.infoList[index].text),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      _showEditDialog(
+                                          context, informationList, index);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      _confirmDelete(
+                                          context, informationList, index);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 80),
+            ],
+          ),
+          const Positioned(
+            top: 0,
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: PrivacyPolicyLink(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -113,12 +145,24 @@ class HomeScreenView extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Editar Informação'),
+          title: const Text(
+            'Editar Informação',
+            style: TextStyle(color: Colors.black),
+          ),
           content: TextField(
             controller: editTextController,
-            decoration: const InputDecoration(
+            style: const TextStyle(color: Colors.black),
+            decoration: InputDecoration(
               labelText: 'Editar informação',
-              border: OutlineInputBorder(),
+              labelStyle: const TextStyle(color: Colors.black),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: Colors.black, width: 1.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.black, width: 2.0),
+              ),
             ),
           ),
           actions: <Widget>[
@@ -128,13 +172,19 @@ class HomeScreenView extends StatelessWidget {
                 _saveData(informationList);
                 Navigator.of(context).pop();
               },
-              child: const Text('Salvar'),
+              child: const Text(
+                'Salvar',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancelar'),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
@@ -190,7 +240,10 @@ class HomeScreenView extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancelar'),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -198,7 +251,10 @@ class HomeScreenView extends StatelessWidget {
                 _saveData(informationList);
                 Navigator.of(context).pop();
               },
-              child: const Text('Excluir'),
+              child: const Text(
+                'Excluir',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
