@@ -14,14 +14,15 @@ class HomeScreenView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter App'),
+        title: const Text('Home'),
       ),
       body: Stack(
         children: [
           Column(
             children: [
+              const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextField(
                   controller: _textController,
                   decoration: const InputDecoration(
@@ -30,6 +31,7 @@ class HomeScreenView extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   informationList.addInformation(_textController.text);
@@ -37,6 +39,7 @@ class HomeScreenView extends StatelessWidget {
                 },
                 child: const Text('Salvar'),
               ),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: informationList.infoList.length,
@@ -67,12 +70,12 @@ class HomeScreenView extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 80),
             ],
           ),
           const Positioned(
-            top: 10,
-            bottom: 30,
+            top: 0,
+            bottom: 40,
             left: 0,
             right: 0,
             child: PrivacyPolicyLink(),

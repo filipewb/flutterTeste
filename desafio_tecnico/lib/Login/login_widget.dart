@@ -70,15 +70,15 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Center(
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
+          Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextFormField(
                     controller: _usernameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -94,8 +94,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                       helperText: '',
                     ),
                   ),
-                  const SizedBox(height: 20.0),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextFormField(
                     controller: _passwordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -112,22 +114,28 @@ class _LoginWidgetState extends State<LoginWidget> {
                       helperText: '',
                     ),
                   ),
-                  const SizedBox(height: 20.0),
-                  SizedBox(
-                    height: 40,
-                    width: 30,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 40, // Defina a altura desejada para o botão aqui
                     child: ElevatedButton(
                       onPressed: _submitForm,
-                      child: const Text('Entrar'),
+                      child: const Text(
+                        'Entrar',
+                        style: TextStyle(fontSize: 14),
+                      ), // Defina o tamanho do texto
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const Positioned(
             top: 10,
-            bottom: 30,
+            bottom: 40,
             left: 0,
             right: 0,
             child: PrivacyPolicyLink(),
