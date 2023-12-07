@@ -7,7 +7,7 @@ import 'home_screen.dart';
 class HomeScreenView extends StatelessWidget {
   final TextEditingController _textController = TextEditingController();
 
-  HomeScreenView({super.key});
+  HomeScreenView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +68,8 @@ class HomeScreenView extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
-                                  informationList.deleteInformation(index);
-                                  _saveData(informationList);
+                                  _confirmDelete(
+                                      context, informationList, index);
                                 },
                               ),
                             ],
@@ -165,5 +165,35 @@ class HomeScreenView extends StatelessWidget {
         ),
       );
     }
+  }
+
+  void _confirmDelete(
+      BuildContext context, InformationList informationList, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmação'),
+          content:
+              const Text('Tem certeza de que deseja excluir esta informação?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                informationList.deleteInformation(index);
+                _saveData(informationList);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Excluir'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
