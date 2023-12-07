@@ -34,8 +34,11 @@ class HomeScreenView extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  informationList.addInformation(_textController.text);
-                  _textController.clear();
+                  _submitInformation(
+                    context,
+                    informationList,
+                    _textController.text.trim(),
+                  );
                 },
                 child: const Text('Salvar'),
               ),
@@ -123,5 +126,20 @@ class HomeScreenView extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _submitInformation(
+      BuildContext context, InformationList informationList, String value) {
+    if (value.trim().isNotEmpty) {
+      informationList.addInformation(value);
+      _textController.clear();
+    } else {
+      // Mostrar um diálogo, snackbar ou outra ação para indicar que o campo está vazio
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, insira alguma informação.'),
+        ),
+      );
+    }
   }
 }
