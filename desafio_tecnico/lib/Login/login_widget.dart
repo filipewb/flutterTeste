@@ -19,7 +19,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       String password = _passwordController.text;
 
       if (password.length < 2) {
-        // Senha deve ter pelo menos dois caracteres
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('A senha deve ter pelo menos dois caracteres'),
@@ -29,7 +28,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       }
 
       if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(password)) {
-        // Senha não pode conter caracteres especiais
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('A senha não pode conter caracteres especiais'),
@@ -39,7 +37,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       }
 
       if (username.length > 20 || password.length > 20) {
-        // Verifica o comprimento máximo
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Os campos não podem ter mais de 20 caracteres'),
@@ -49,7 +46,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       }
 
       if (username.endsWith(' ') || password.endsWith(' ')) {
-        // Verifica se há espaços no final
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Os campos não podem terminar com espaço'),
@@ -58,8 +54,6 @@ class _LoginWidgetState extends State<LoginWidget> {
         return;
       }
 
-      // Se todas as verificações passaram, você pode navegar para a próxima tela
-      // Substitua esse código com a navegação para a próxima tela conforme necessário
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(builder: (context) => NextScreen()),
