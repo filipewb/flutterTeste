@@ -7,7 +7,7 @@ import 'home_screen.dart';
 class HomeScreenView extends StatelessWidget {
   final TextEditingController _textController = TextEditingController();
 
-  HomeScreenView({Key? key});
+  HomeScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {

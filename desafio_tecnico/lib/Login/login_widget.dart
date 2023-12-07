@@ -1,7 +1,6 @@
 import 'package:desafio_tecnico/home/home_screen.dart';
 import 'package:desafio_tecnico/widgets/privacy_policy_link.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
