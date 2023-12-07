@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/privacy_policy_link.dart';
 import 'home_screen.dart';
 
@@ -11,6 +12,8 @@ class HomeScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var informationList = Provider.of<InformationList>(context);
+
+    _loadSavedData(informationList);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,6 +69,7 @@ class HomeScreenView extends StatelessWidget {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   informationList.deleteInformation(index);
+                                  _saveData(informationList);
                                 },
                               ),
                             ],
@@ -112,6 +116,7 @@ class HomeScreenView extends StatelessWidget {
             TextButton(
               onPressed: () {
                 informationList.editInformation(index, editTextController.text);
+                _saveData(informationList);
                 Navigator.of(context).pop();
               },
               child: const Text('Salvar'),
@@ -128,13 +133,32 @@ class HomeScreenView extends StatelessWidget {
     );
   }
 
+  Future<void> _loadSavedData(InformationList informationList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedData = prefs.getStringList('informationList');
+
+    if (savedData != null) {
+      informationList.infoList.clear();
+      for (String info in savedData) {
+        informationList.addInformation(info);
+      }
+    }
+  }
+
+  Future<void> _saveData(InformationList informationList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> dataToSave =
+        informationList.infoList.map((info) => info.text).toList();
+    await prefs.setStringList('informationList', dataToSave);
+  }
+
   void _submitInformation(
       BuildContext context, InformationList informationList, String value) {
     if (value.trim().isNotEmpty) {
       informationList.addInformation(value);
+      _saveData(informationList);
       _textController.clear();
     } else {
-      // Mostrar um diálogo, snackbar ou outra ação para indicar que o campo está vazio
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor, insira alguma informação.'),
