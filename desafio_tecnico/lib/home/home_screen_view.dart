@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/privacy_policy_link.dart';
@@ -11,87 +12,95 @@ class HomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var informationList = Provider.of<InformationList>(context);
-
-    _loadSavedData(informationList);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: TextField(
-                  controller: _textController,
-                  decoration: const InputDecoration(
-                    labelText: 'Digite as informações',
-                    border: OutlineInputBorder(),
-                  ),
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    var informationList = Provider.of<InformationList>(context);
+
+    _loadSavedData(informationList);
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: TextField(
+                controller: _textController,
+                decoration: const InputDecoration(
+                  labelText: 'Digite as informações',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _submitInformation(
-                    context,
-                    informationList,
-                    _textController.text.trim(),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                _submitInformation(
+                  context,
+                  informationList,
+                  _textController.text.trim(),
+                );
+              },
+              child: const Text('Salvar'),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: Observer(
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: ListView.builder(
+                      itemCount: informationList.infoList.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(informationList.infoList[index].text),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    _showEditDialog(
+                                        context, informationList, index);
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    _confirmDelete(
+                                        context, informationList, index);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
-                child: const Text('Salvar'),
               ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: ListView.builder(
-                    itemCount: informationList.infoList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(informationList.infoList[index].text),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  _showEditDialog(
-                                      context, informationList, index);
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  _confirmDelete(
-                                      context, informationList, index);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 80),
-            ],
-          ),
-          const Positioned(
-            top: 0,
-            bottom: 40,
-            left: 0,
-            right: 0,
-            child: PrivacyPolicyLink(),
-          ),
-        ],
-      ),
+            ),
+            const SizedBox(height: 80),
+          ],
+        ),
+        const Positioned(
+          top: 0,
+          bottom: 40,
+          left: 0,
+          right: 0,
+          child: PrivacyPolicyLink(),
+        ),
+      ],
     );
   }
 
